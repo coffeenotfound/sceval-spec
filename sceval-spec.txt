@@ -1,0 +1,110 @@
+
+## Code
+	Code is a sequence of statements seperated by whitespace or by
+	syntactic statement breaks. The first statement must be the start
+	of a scope and the last statement must be the end of said scope.
+	
+	# Valid var descriptors
+	Var descriptors must start with a latin char (a-z or A-Z)
+	and can contain any of a-z, A-Z or 0-9
+	
+	# Valid primitive literals
+	
+	
+	# Dynamic Var Binding/Evaluation
+	Vars inside a scope always keep a reference to the scope they
+	exist in. Even if a scope is evaluated later in a different scope
+	than it was declared, the vars are relative to the original scope
+	and to its parent scopes (where the scope was declared originally).
+	To allow vars from a scope to be relative to the current scope where
+	it is being evaluated they must be evaluated dynamically bound.
+	{NOTE: vars are not declared dyn. bound, they can only be evaled dyn. bound!}
+	{TODO: how? simply with a ':' char infront of the var name?}
+	
+	# Syntactic Statement Breaks
+	Syntactic statement breaks are situations where no whitespace
+	seperates two statements but rather it can be inferred from
+	syntactics. If a sudden unexpected character follows a previous
+	statement without whitespace it can be inferred that it must
+	belong to new statement.
+	
+	a=1(a2=2) <- syntactic break between the '1' and the opening bracket
+	a=a2a2=2 <- no syntactic break. tries to reference var 'a2a2'
+	
+## Types
+	There are two major kinds of types:
+		primitives and scopeobjects
+	
+	Primitives are simple byte based data types.
+	There are two types of primitives: number and bool			{what about float?, what about casting?}
+	Any primitive type can be cast to any other primitive
+	type under following rules:
+		bools that are false can be evaluated as the number 0
+		bools that are true can be evaluated as the number 1
+		numbers that are non-zero can be evaluated to true
+		numbers that are zero can be evaluated to false
+	{what is number? what about signed?}
+	
+	Any type can be evaluated.
+	Primitives evaluate to themselves.
+	Scopeobjects evaluate to										{TODO: expand: exact rules of scope evaluation}
+	
+## Statements
+	# Var Define Assign
+	
+	varname=[evaluable]
+	
+	Assign the result of evaluating the evaluable (the value) to
+	the var with the given name. If no such var exists in the
+	current scope or any parent scope, it is defined in the current
+	scope before assigning the value.
+	The statement evaluates the evaluated value.
+	
+	a=2
+	b=(3+6)
+	
+	
+	# Scope Referencing
+	
+	@[evaluable]
+	
+	This statement evaluates to the evaluable without evaluating it.
+	This allows later evaluation of the evaluable.
+	
+	ffunc=@(a+b)
+	a=1
+	b=2
+	c=!ffunc
+	
+	# Explicit Evaluation
+	
+	
+	
+	# Loop
+	
+	[evaluable]~[evaluable]
+	
+	Evaluate the latter scopeobject (the body) as long
+	as the first evaluable (the condition) evaluates to true.
+	The condition is always evaluated before the body.
+	If the condition evaluates to false the body is not evaluated
+	and the statement ends.
+	The statement 
+	
+	i=0
+	@(i<10)~@(i++)
+	
+	
+	# Branch
+	
+	[evaluable]?[evaluable]
+	
+	[evaluable]?[evaluable]:[evaluable]
+	
+	Evalute the first evaluable (the condition). If the condition evaluates
+	to true the second evaluable (the positive branch) is evaluated. If a
+	negative (else) branch is present it is evaluated if the condition evals
+	to false.
+	The statement evaluates to the evaluated positive branch, the negative branch
+	or if the condition evaluates to false and no negative branch is present.
+	
