@@ -24,3 +24,6 @@ ffibs=@<n>(
 
 !<10>ffibs
 ```
+
+### Note to self:
+#18212b
